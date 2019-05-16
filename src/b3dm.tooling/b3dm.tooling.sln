@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "b3dm.tooling", "b3dm.tooling.csproj", "{FE77052E-6916-487F-A8A7-DA30D0858C8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE77052E-6916-487F-A8A7-DA30D0858C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE77052E-6916-487F-A8A7-DA30D0858C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE77052E-6916-487F-A8A7-DA30D0858C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE77052E-6916-487F-A8A7-DA30D0858C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81CD04AA-DC8F-4AA9-A343-74308BD83F79}
+	EndGlobalSection
+EndGlobal
