@@ -1,5 +1,17 @@
 # b3dm.tooling
 
+- Install from NuGet
+
+```
+$ dotnet tool install -g b3dm.tooling
+```
+
+or update:
+
+```
+$ dotnet tool update -g b3dm.tooling
+```
+
 - Build:
 
 ```
