@@ -2,6 +2,10 @@
 
 - Install from NuGet
 
+
+[![NuGet Status](http://img.shields.io/nuget/v/b3dm-tooling.svg?style=flat)](https://www.nuget.org/packages/b3dm-tooling/)
+
+
 ```
 $ dotnet tool install -g b3dm.tooling
 ```
