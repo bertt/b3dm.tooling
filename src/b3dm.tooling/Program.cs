@@ -62,7 +62,7 @@ namespace b3dm.tooling
                 Console.WriteLine("Glb created " + glbfile);
             }
             catch (InvalidDataException ex) {
-                Console.WriteLine("B3dm version not supported.");
+                Console.WriteLine("glTF version not supported.");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -72,9 +72,19 @@ namespace b3dm.tooling
             var f = File.OpenRead(file);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
+            Console.WriteLine("Batch table json: " + b3dm.BatchTableJson);
+            Console.WriteLine("Feature table json: " + b3dm.FeatureTableJson);
             var stream = new MemoryStream(b3dm.GlbData);
-            var gltf = Interface.LoadModel(stream);
-            Console.WriteLine(gltf.SerializeModel());
+            try
+            {
+                var gltf = Interface.LoadModel(stream);
+                Console.WriteLine(gltf.SerializeModel());
+            }
+            catch (InvalidDataException ex)
+            {
+                Console.WriteLine("glTF version not supported.");
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
