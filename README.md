@@ -2,6 +2,8 @@
 
 - Install from NuGet
 
+https://www.nuget.org/packages/b3dm.tooling/
+
 ```
 $ dotnet tool install -g b3dm.tooling
 ```
