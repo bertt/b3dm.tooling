@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/bertt/b3dm.tooling</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Tooling for pack/unpack/info on b3dm file</Description>
-    <PackageReleaseNotes>adding support for bacth table / feature table</PackageReleaseNotes>
+    <PackageReleaseNotes>adding support for batch table / feature table</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
