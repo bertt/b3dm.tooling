@@ -1,5 +1,9 @@
 # b3dm.tooling
 
+Global tooling for handling b3dm files, like getting information about the b3dm (info), unpacking to glb (unpack) or creating b3dm from glb file (pack).
+
+## Installation
+
 - Install from NuGet
 
 https://www.nuget.org/packages/b3dm.tooling/
@@ -12,23 +16,10 @@ or update:
 
 ```
 $ dotnet tool update -g b3dm.tooling
-```
-
-- Build:
 
 ```
-$ cd b3dm-tile-cs\b3dm.tooling
-$ dotnet pack
-$ dotnet tool install --global --add-source ./nupkg b3dm.tooling
-```
 
-or update:
-
-```
-$ dotnet tool update --global --add-source ./nupkg b3dm.tooling
-```
-
-- run:
+## Running
 
 1] Command Info b3dm_file gives header info about b3dm file
 
@@ -61,4 +52,20 @@ $ b3dm pack test.glb
 
 B3dm created test.b3dm
 ```
+
+## Building from source
+
+```
+$ cd b3dm-tile-cs\b3dm.tooling
+$ dotnet pack
+$ dotnet tool install --global --add-source ./nupkg b3dm.tooling
+```
+
+or update:
+
+```
+$ dotnet tool update --global --add-source ./nupkg b3dm.tooling
+```
+
+
 

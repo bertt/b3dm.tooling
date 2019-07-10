@@ -7,7 +7,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>b3dm</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <Version>0.7</Version>
+    <Version>0.8</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Bert Temme</Authors>
     <Company>Geodan</Company>
@@ -16,10 +16,11 @@
     <RepositoryUrl>https://github.com/bertt/b3dm.tooling</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Tooling for pack/unpack/info on b3dm file</Description>
+    <PackageReleaseNotes>adding support for bacth table / feature table</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="b3dm-tile" Version="0.7.0" />
+    <PackageReference Include="b3dm-tile" Version="0.8.0" />
     <PackageReference Include="glTF2Loader" Version="1.1.3-alpha" />
   </ItemGroup>
 
