@@ -71,20 +71,25 @@ namespace b3dm.tooling
         {
             var f = File.OpenRead(file);
             var b3dm = B3dmReader.ReadB3dm(f);
-            Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
+            Console.WriteLine("b3dm header version: " + b3dm.B3dmHeader.Version);
+            Console.WriteLine("b3dm header magic: " + b3dm.B3dmHeader.Magic);
+            Console.WriteLine("b3dm header bytelength: " + b3dm.B3dmHeader.ByteLength);
+            Console.WriteLine("b3dm header featuretablejson length: " + b3dm.B3dmHeader.FeatureTableJsonByteLength);
+            Console.WriteLine("b3dm header batchtablejson length: " + b3dm.B3dmHeader.BatchTableJsonByteLength);
             Console.WriteLine("Batch table json: " + b3dm.BatchTableJson);
             Console.WriteLine("Feature table json: " + b3dm.FeatureTableJson);
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
                 var gltf = Interface.LoadModel(stream);
-                Console.WriteLine(gltf.SerializeModel());
+                Console.WriteLine("glTF model is loaded");
             }
             catch (InvalidDataException ex)
             {
                 Console.WriteLine("glTF version not supported.");
                 Console.WriteLine(ex.Message);
             }
+            f.Dispose();
         }
     }
 }
