@@ -27,6 +27,15 @@ Example:
 
 ```
 $ b3dm info test.b3dm
+
+b3dm header version: 1
+b3dm header magic: b3dm
+b3dm header bytelength: 69658
+b3dm header featuretablejson length: 20
+b3dm header batchtablejson length: 521
+Batch table json: {"hoehe":["17.386000000000024","18.34499999999997","18.58699999999999","21.860000000000014","10.168000000000006","20.584000000000003","19.70599999999996","19.817000000000007","20.000999999999976","16.577999999999975","17.865999999999985","17.745000000000005"],"citygml_class":["BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01"],"surfaceType":["roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof"],"Region":["5","5","5","5","5","5","5","5","5","5","5","5"]}
+Feature table json: {"BATCH_LENGTH":12}
+glTF model is loaded
 ```
 
 2] Command unpack b3dm_filename unpacks a b3dm file to GLB format
