@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using B3dm.Tile;
 using glTFLoader;
+using glTFLoader.Schema;
 
 namespace b3dm.tooling
 {
@@ -69,6 +71,7 @@ namespace b3dm.tooling
 
         static void Info(string file)
         {
+            Console.WriteLine("b3dm file: " + file);
             var f = File.OpenRead(file);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm header version: " + b3dm.B3dmHeader.Version);
@@ -83,6 +86,9 @@ namespace b3dm.tooling
             {
                 var gltf = Interface.LoadModel(stream);
                 Console.WriteLine("glTF model is loaded");
+                Console.WriteLine("glTF generator: " + gltf.Asset.Generator);
+                Console.WriteLine("glTF version:" + gltf.Asset.Version);
+                Console.WriteLine("glTF primitives: " + gltf.Meshes[0].Primitives.Length);
             }
             catch (InvalidDataException ex)
             {
