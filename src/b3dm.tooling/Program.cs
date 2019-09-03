@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using B3dm.Tile;
 using glTFLoader;
-using glTFLoader.Schema;
 
 namespace b3dm.tooling
 {
@@ -89,6 +87,13 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + gltf.Asset.Generator);
                 Console.WriteLine("glTF version:" + gltf.Asset.Version);
                 Console.WriteLine("glTF primitives: " + gltf.Meshes[0].Primitives.Length);
+                if(gltf.Meshes[0].Primitives.Length > 0)
+                {
+                    Console.WriteLine("glTF primitive mode: " + gltf.Meshes[0].Primitives[0].Mode);
+                    Console.WriteLine("glTF primitive attributes: " + String.Join(',', gltf.Meshes[0].Primitives[0].Attributes));
+                    // gltf.Meshes[0].Primitives[0];
+                    // todo: how to get to the vertices?
+                }
             }
             catch (InvalidDataException ex)
             {
