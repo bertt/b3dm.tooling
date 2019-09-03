@@ -10,7 +10,7 @@ namespace b3dm.tooling
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0) {
+            if (args.Length < 2) {
                 var versionString = Assembly.GetEntryAssembly()
                                         .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                                         .InformationalVersion
