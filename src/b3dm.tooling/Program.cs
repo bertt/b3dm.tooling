@@ -69,9 +69,6 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF asset generator: " + gltf.Asset.Generator);
                 Console.WriteLine("glTF version: " + gltf.Asset.Version);
                 var bufferBytes = gltf.Buffers[0].ByteLength;
-                Console.WriteLine("glTF extensions used:" + string.Join(',', gltf.ExtensionsUsed));
-                Console.WriteLine("glTF extensions required:" + string.Join(',', gltf.ExtensionsRequired));
-
                 var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
                 var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
 
@@ -121,8 +118,22 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + gltf.Asset.Generator);
                 Console.WriteLine("glTF version:" + gltf.Asset.Version);
                 Console.WriteLine("glTF primitives: " + gltf.Meshes[0].Primitives.Length);
-                Console.WriteLine("glTF extensions used:" + String.Join(',', gltf.ExtensionsUsed));
-                Console.WriteLine("glTF extensions required:" + String.Join(',', gltf.ExtensionsRequired));
+                if (gltf.ExtensionsUsed != null)
+                {
+                    Console.WriteLine("glTF extensions used:" + string.Join(',', gltf.ExtensionsUsed));
+                }
+                else
+                {
+                    Console.WriteLine("glTF: no extensions used.");
+                }
+                if (gltf.ExtensionsRequired != null)
+                {
+                    Console.WriteLine("glTF extensions required:" + string.Join(',', gltf.ExtensionsRequired));
+                }
+                else
+                {
+                    Console.WriteLine("glTF: no extensions required.");
+                }
 
                 if (gltf.Meshes[0].Primitives.Length > 0)
                 {
