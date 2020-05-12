@@ -26,7 +26,7 @@ $ dotnet tool update -g b3dm.tooling
 Example:
 
 ```
-$ b3dm info test.b3dm
+$ b3dm info -i test.b3dm
 
 b3dm header version: 1
 b3dm header magic: b3dm
@@ -38,12 +38,12 @@ Feature table json: {"BATCH_LENGTH":12}
 glTF model is loaded
 ```
 
-2] Command unpack b3dm_filename unpacks a b3dm file to GLB format
+2] Command unpack -i b3dm_filename unpacks a b3dm file to GLB format
 
 Example:
 
 ```
-$ b3dm unpack test.b3dm
+$ b3dm unpack -i test.b3dm
 
 b3dm version: 1
 glTF asset generator: py3dtiles
@@ -52,7 +52,7 @@ Buffer bytes: 1848
 Glb created test.glb
 ```
 
-3] Command pack glb_filename to pack a glb to b3dm file
+3] Command pack -i glb_filename to pack a glb to b3dm file
 
 Example:
 

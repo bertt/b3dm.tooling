@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using B3dm.Tile;
+using CommandLine;
 using glTFLoader;
 
 namespace b3dm.tooling
@@ -10,30 +10,21 @@ namespace b3dm.tooling
     {
         static void Main(string[] args)
         {
-            if (args.Length < 2) {
-                var versionString = Assembly.GetEntryAssembly()
-                                        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                                        .InformationalVersion
-                                        .ToString();
-
-                Console.WriteLine($"b3dm v{versionString}");
-                Console.WriteLine("-------------");
-                Console.WriteLine("\nUsage:");
-                Console.WriteLine("  b3dm unpack <b3dm-file>");
-                Console.WriteLine("  b3dm pack <glb-file>");
-                Console.WriteLine("  b3dm info <b3dm-file>");
-                return;
-            }
-
-            if (args[0] == "unpack") {
-                Unpack(args[1]);
-            }
-            else if (args[0] == "pack") {
-                Pack(args[1]);
-            }
-            else if (args[0] == "info") {
-                Info(args[1]);
-            }
+            Parser.Default.ParseArguments<PackOptions, UnpackOptions, InfoOptions>(args).WithParsed(o =>
+            {
+                switch (o)
+                {
+                    case InfoOptions options:
+                        Info(options.Input);
+                        break;
+                    case PackOptions options:
+                        Pack(options.Input);
+                        break;
+                    case UnpackOptions options:
+                        Unpack(options.Input);
+                        break;
+                }
+            });
         }
 
         static void Pack(string file)
