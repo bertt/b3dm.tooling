@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using B3dm.Tile;
 using CommandLine;
 using glTFLoader;
@@ -29,19 +30,19 @@ namespace b3dm.tooling
 
         static void Pack(PackOptions o)
         {
-            var batchTableJson = String.Empty;
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {o.Input}");
             var f = File.ReadAllBytes(o.Input);
             var batchFile = Path.GetFileNameWithoutExtension(o.Input) + ".batch";
+            var b3dm = new B3dm.Tile.B3dm(f);
 
             if (File.Exists(batchFile))
             {
                 Console.WriteLine($"Input batch file: {batchFile}");
-                batchTableJson = File.ReadAllText(batchFile);
+                var batchTableJson = File.ReadAllLines(batchFile);
+                b3dm.FeatureTableJson = batchTableJson[0];
+                b3dm.BatchTableJson = batchTableJson[1];
             }
-            var b3dm = new B3dm.Tile.B3dm(f);
-            b3dm.BatchTableJson = batchTableJson;
 
             var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
 
@@ -68,7 +69,9 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF asset generator: " + gltf.Asset.Generator);
                 Console.WriteLine("glTF version: " + gltf.Asset.Version);
                 var bufferBytes = gltf.Buffers[0].ByteLength;
-                Console.WriteLine("Buffer bytes: " + bufferBytes);
+                Console.WriteLine("glTF extensions used:" + string.Join(',', gltf.ExtensionsUsed));
+                Console.WriteLine("glTF extensions required:" + string.Join(',', gltf.ExtensionsRequired));
+
                 var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
                 var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
 
@@ -82,12 +85,14 @@ namespace b3dm.tooling
                     Console.WriteLine($"Glb created: {glbfile}");
                     if (b3dm.BatchTableJson != String.Empty)
                     {
-                        File.WriteAllText(batchfile, b3dm.BatchTableJson);
+                        var sb = new StringBuilder();
+                        sb.Append(b3dm.FeatureTableJson);
+                        sb.AppendLine();
+                        sb.Append(b3dm.BatchTableJson);
+                        File.WriteAllText(batchfile, sb.ToString());
                         Console.WriteLine($"batch file created: {batchfile}");
                     }
-
                 }
-
             }
             catch (InvalidDataException ex) {
                 Console.WriteLine("glTF version not supported.");
@@ -116,7 +121,10 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + gltf.Asset.Generator);
                 Console.WriteLine("glTF version:" + gltf.Asset.Version);
                 Console.WriteLine("glTF primitives: " + gltf.Meshes[0].Primitives.Length);
-                if(gltf.Meshes[0].Primitives.Length > 0)
+                Console.WriteLine("glTF extensions used:" + String.Join(',', gltf.ExtensionsUsed));
+                Console.WriteLine("glTF extensions required:" + String.Join(',', gltf.ExtensionsRequired));
+
+                if (gltf.Meshes[0].Primitives.Length > 0)
                 {
                     Console.WriteLine("glTF primitive mode: " + gltf.Meshes[0].Primitives[0].Mode);
                     Console.WriteLine("glTF primitive attributes: " + String.Join(',', gltf.Meshes[0].Primitives[0].Attributes));
