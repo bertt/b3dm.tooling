@@ -29,10 +29,18 @@ namespace b3dm.tooling
 
         static void Pack(PackOptions o)
         {
+            var batchTableJson = String.Empty;
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {o.Input}");
             var f = File.ReadAllBytes(o.Input);
+            var batchFile = Path.GetFileNameWithoutExtension(o.Input) + ".batch";
+
+            if (File.Exists(batchFile))
+            {
+                batchTableJson = File.ReadAllText(batchFile);
+            }
             var b3dm = new B3dm.Tile.B3dm(f);
+            b3dm.BatchTableJson = batchTableJson;
 
             var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
 
@@ -61,14 +69,16 @@ namespace b3dm.tooling
                 var bufferBytes = gltf.Buffers[0].ByteLength;
                 Console.WriteLine("Buffer bytes: " + bufferBytes);
                 var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
+                var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
 
-                if(File.Exists(glbfile) && !o.Force)
+                if (File.Exists(glbfile) && !o.Force)
                 {
                     Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
                 }
                 else
                 {
                     File.WriteAllBytes(glbfile, b3dm.GlbData);
+                    File.WriteAllText(batchfile, b3dm.BatchTableJson);
                     Console.WriteLine($"Glb created: {glbfile}");
                 }
 
