@@ -82,28 +82,37 @@ Feature table json: {"BATCH_LENGTH":12}
 glTF model is loaded
 ```
 
-2] Command unpack -i b3dm_filename unpacks a b3dm file to GLB format
+2] Command unpack -i b3dm_filename 
+
+unpacks a b3dm file to GLB format and creates .batch file when containing batchTableJson information
 
 Example:
 
 ```
 $ b3dm unpack -i test.b3dm
 
+```
+Action: Unpack
+Input: 1.b3dm
 b3dm version: 1
 glTF asset generator: py3dtiles
 glTF version: 2.0
-Buffer bytes: 1848
-Glb created test.glb
+Buffer bytes: 167832
+Glb created: 1.glb
+batch file created: 1.batch
 ```
 
-3] Command pack -i glb_filename to pack a glb to b3dm file
+3] Command pack -i glb_filename to pack a glb to b3dm file and importing batchTableJson when .batch file exists.
 
 Example:
 
 ```
-$ b3dm pack test.glb
+$ b3dm pack -i test.glb
 
-B3dm created test.b3dm
+Action: Pack
+Input: 1.b3dm
+Input batch file: 1.batch
+B3dm created output.b3dm
 ```
 
 ## Building from source

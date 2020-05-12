@@ -37,6 +37,7 @@ namespace b3dm.tooling
 
             if (File.Exists(batchFile))
             {
+                Console.WriteLine($"Input batch file: {batchFile}");
                 batchTableJson = File.ReadAllText(batchFile);
             }
             var b3dm = new B3dm.Tile.B3dm(f);
@@ -78,8 +79,13 @@ namespace b3dm.tooling
                 else
                 {
                     File.WriteAllBytes(glbfile, b3dm.GlbData);
-                    File.WriteAllText(batchfile, b3dm.BatchTableJson);
                     Console.WriteLine($"Glb created: {glbfile}");
+                    if (b3dm.BatchTableJson != String.Empty)
+                    {
+                        File.WriteAllText(batchfile, b3dm.BatchTableJson);
+                        Console.WriteLine($"batch file created: {batchfile}");
+                    }
+
                 }
 
             }
