@@ -2,25 +2,25 @@
 
 namespace b3dm.tooling
 {
-    [Verb("pack", HelpText = "pack b3dm")]
+    [Verb("pack", HelpText = "pack glb to b3dm")]
     public class PackOptions
     { 
-        [Option('i', "input", Required = true, HelpText = "Input path of the .b3dm")]
+        [Option('i', "input", Required = true, HelpText = "Input path of the glb file")]
         public string Input { get; set; }
-        [Option('o', "output", Required = false, Default = "", HelpText = "Output path of the resulting .glb")]
+        [Option('o', "output", Required = false, Default = "", HelpText = "Output path of the resulting .b3dm")]
         public string Output { get; set; }
-        [Option('f', "force", Required = false, Default = false, HelpText = "Database name")]
+        [Option('f', "force", Required = false, Default = false, HelpText = "force overwrite output file")]
         public bool Force { get; set; }
     }
 
-    [Verb("unpack", HelpText = "unpack b3dm")]
+    [Verb("unpack", HelpText = "unpack b3dm to glb")]
     public class UnpackOptions
     {
         [Option('i', "input", Required = true, HelpText = "Input path of the .b3dm")]
         public string Input { get; set; }
         [Option('o', "output", Required = false, Default = "", HelpText = "Output path of the resulting .glb")]
         public string Output { get; set; }
-        [Option('f', "force", Required = false, Default = false, HelpText = "Database name")]
+        [Option('f', "force", Required = false, Default = false, HelpText = "force overwrite output file")]
         public bool Force { get; set; }
     }
 

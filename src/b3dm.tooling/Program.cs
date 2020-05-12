@@ -15,30 +15,42 @@ namespace b3dm.tooling
                 switch (o)
                 {
                     case InfoOptions options:
-                        Info(options.Input);
+                        Info(options);
                         break;
                     case PackOptions options:
-                        Pack(options.Input);
+                        Pack(options);
                         break;
                     case UnpackOptions options:
-                        Unpack(options.Input);
+                        Unpack(options);
                         break;
                 }
             });
         }
 
-        static void Pack(string file)
+        static void Pack(PackOptions o)
         {
-            var f = File.ReadAllBytes(file);
+            Console.WriteLine($"Action: Pack");
+            Console.WriteLine($"Input: {o.Input}");
+            var f = File.ReadAllBytes(o.Input);
             var b3dm = new B3dm.Tile.B3dm(f);
-            var b3dmfile = Path.GetFileNameWithoutExtension(file) + ".b3dm";
-            B3dmWriter.WriteB3dm(b3dmfile, b3dm);
-            Console.WriteLine("B3dm created " + b3dmfile);
+
+            var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
+
+            if (File.Exists(b3dmfile) && !o.Force)
+            {
+                Console.WriteLine($"File {b3dmfile} already exists. Specify -f or --force to overwrite existing files.");
+            }
+            else
+            {
+                B3dmWriter.WriteB3dm(b3dmfile, b3dm);
+                Console.WriteLine("B3dm created " + b3dmfile);
+            }
         }
 
-        static void Unpack(string file)
-        {
-            var f = File.OpenRead(file);
+        static void Unpack(UnpackOptions o) { 
+            Console.WriteLine($"Action: Unpack");
+            Console.WriteLine($"Input: {o.Input}");
+            var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
             var stream = new MemoryStream(b3dm.GlbData);
@@ -48,9 +60,18 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF version: " + gltf.Asset.Version);
                 var bufferBytes = gltf.Buffers[0].ByteLength;
                 Console.WriteLine("Buffer bytes: " + bufferBytes);
-                var glbfile = Path.GetFileNameWithoutExtension(file) + ".glb";
-                File.WriteAllBytes(glbfile, b3dm.GlbData);
-                Console.WriteLine("Glb created " + glbfile);
+                var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
+
+                if(File.Exists(glbfile) && !o.Force)
+                {
+                    Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
+                }
+                else
+                {
+                    File.WriteAllBytes(glbfile, b3dm.GlbData);
+                    Console.WriteLine($"Glb created: {glbfile}");
+                }
+
             }
             catch (InvalidDataException ex) {
                 Console.WriteLine("glTF version not supported.");
@@ -58,10 +79,11 @@ namespace b3dm.tooling
             }
         }
 
-        static void Info(string file)
+        static void Info(InfoOptions o)
         {
-            Console.WriteLine("b3dm file: " + file);
-            var f = File.OpenRead(file);
+            Console.WriteLine($"Action: Info");
+            Console.WriteLine("b3dm file: " + o.Input);
+            var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm header version: " + b3dm.B3dmHeader.Version);
             Console.WriteLine("b3dm header magic: " + b3dm.B3dmHeader.Magic);

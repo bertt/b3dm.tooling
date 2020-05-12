@@ -2,6 +2,50 @@
 
 Global tooling for handling b3dm files, like getting information about the b3dm (info), unpacking to glb (unpack) or creating b3dm from glb file (pack).
 
+## API
+
+Verbs:
+
+```
+  pack       pack b3dm
+
+  unpack     unpack b3dm
+
+  info       info b3dm
+
+  help       Display more information on a specific command.
+
+  version    Display version information.
+```
+
+Info options:
+
+```
+  -i, --input    Required. Input path of the .b3dm
+```
+
+Pack options:
+
+```
+  -i, --input     Required. Input path of the glb file
+
+  -o, --output    (Default: ) Output path of the resulting .b3dm
+
+  -f, --force     (Default: false) force overwrite output file
+```
+
+
+Unpack options:
+
+```
+  -i, --input     Required. Input path of the .b3dm
+
+  -o, --output    (Default: ) Output path of the resulting .glb
+
+  -f, --force     (Default: false) force overwrite output file
+```
+
+
 ## Installation
 
 - Install from NuGet
