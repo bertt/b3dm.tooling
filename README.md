@@ -48,6 +48,8 @@ Unpack options:
 
 ## Installation
 
+Requirement: Install .NET Core SDK 3.1 https://dotnet.microsoft.com/download
+
 - Install from NuGet
 
 https://www.nuget.org/packages/b3dm.tooling/
@@ -90,8 +92,6 @@ Example:
 
 ```
 $ b3dm unpack -i test.b3dm
-
-```
 Action: Unpack
 Input: 1.b3dm
 b3dm version: 1
