@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using B3dm.Tile;
 using CommandLine;
-using glTFLoader;
+using SharpGLTF.Validation;
 
 namespace b3dm.tooling
 {
@@ -65,10 +65,9 @@ namespace b3dm.tooling
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
             var stream = new MemoryStream(b3dm.GlbData);
             try {
-                var gltf = Interface.LoadModel(stream);
-                Console.WriteLine("glTF asset generator: " + gltf.Asset.Generator);
-                Console.WriteLine("glTF version: " + gltf.Asset.Version);
-                var bufferBytes = gltf.Buffers[0].ByteLength;
+                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+                Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
+                Console.WriteLine("glTF version: " + glb.Asset.Version);
                 var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
                 var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
 
@@ -113,41 +112,42 @@ namespace b3dm.tooling
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
-                var gltf = Interface.LoadModel(stream);
+                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
                 Console.WriteLine("glTF model is loaded");
-                Console.WriteLine("glTF generator: " + gltf.Asset.Generator);
-                Console.WriteLine("glTF version:" + gltf.Asset.Version);
-                Console.WriteLine("glTF primitives: " + gltf.Meshes[0].Primitives.Length);
-                if (gltf.ExtensionsUsed != null)
+                Console.WriteLine("glTF generator: " + glb.Asset.Generator);
+                Console.WriteLine("glTF version:" + glb.Asset.Version);
+                Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
+                if (glb.ExtensionsUsed != null)
                 {
-                    Console.WriteLine("glTF extensions used:" + string.Join(',', gltf.ExtensionsUsed));
+                    Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));
                 }
                 else
                 {
                     Console.WriteLine("glTF: no extensions used.");
                 }
-                if (gltf.ExtensionsRequired != null)
+                if (glb.ExtensionsRequired != null)
                 {
-                    Console.WriteLine("glTF extensions required:" + string.Join(',', gltf.ExtensionsRequired));
+                    Console.WriteLine("glTF extensions required:" + string.Join(',', glb.ExtensionsRequired));
                 }
                 else
                 {
                     Console.WriteLine("glTF: no extensions required.");
                 }
 
-                if (gltf.Meshes[0].Primitives.Length > 0)
+                if (glb.LogicalMeshes[0].Primitives.Count > 0)
                 {
-                    Console.WriteLine("glTF primitive mode: " + gltf.Meshes[0].Primitives[0].Mode);
-                    Console.WriteLine("glTF primitive attributes: " + String.Join(',', gltf.Meshes[0].Primitives[0].Attributes));
-                    // gltf.Meshes[0].Primitives[0];
-                    // todo: how to get to the vertices?
+                    Console.WriteLine("glTF primitive mode: " + glb.LogicalMeshes[0].Primitives[0].DrawPrimitiveType);
                 }
+            }
+            catch (SchemaException ex)
+            {
+                Console.WriteLine("glTF schema exception");
+                Console.WriteLine(ex.Message);
             }
             catch (InvalidDataException ex)
             {
-                Console.WriteLine("glTF version not supported.");
-                Console.WriteLine(ex.Message);
             }
+
             f.Dispose();
         }
     }
