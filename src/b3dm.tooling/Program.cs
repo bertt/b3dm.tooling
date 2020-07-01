@@ -107,8 +107,23 @@ namespace b3dm.tooling
             Console.WriteLine("b3dm header bytelength: " + b3dm.B3dmHeader.ByteLength);
             Console.WriteLine("b3dm header featuretablejson length: " + b3dm.B3dmHeader.FeatureTableJsonByteLength);
             Console.WriteLine("b3dm header batchtablejson length: " + b3dm.B3dmHeader.BatchTableJsonByteLength);
-            Console.WriteLine("Batch table json: " + b3dm.BatchTableJson);
-            Console.WriteLine("Feature table json: " + b3dm.FeatureTableJson);
+            Console.WriteLine("Feature table json: '" + b3dm.FeatureTableJson + "'");
+            Console.WriteLine("Batch table json: '" + b3dm.BatchTableJson + "'");
+
+            var validationErrors = b3dm.B3dmHeader.Validate();
+            if (validationErrors.Count > 0)
+            {
+                Console.WriteLine($"Validation check: {validationErrors.Count} errors");
+                foreach (var error in validationErrors)
+                {
+                    Console.WriteLine(error);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Validation check: no errors");
+            }
+
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
@@ -146,6 +161,8 @@ namespace b3dm.tooling
             }
             catch (InvalidDataException ex)
             {
+                Console.WriteLine("Invalid data exception");
+                Console.WriteLine(ex.Message);
             }
 
             f.Dispose();
