@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using B3dm.Tile;
 using CommandLine;
@@ -57,18 +58,20 @@ namespace b3dm.tooling
             }
         }
 
-        static void Unpack(UnpackOptions o) { 
+        static void Unpack(UnpackOptions o)
+        {
             Console.WriteLine($"Action: Unpack");
             Console.WriteLine($"Input: {o.Input}");
             var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
             var stream = new MemoryStream(b3dm.GlbData);
-            try {
+            try
+            {
                 var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
                 Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version: " + glb.Asset.Version);
-                var glbfile = (o.Output==string.Empty?Path.GetFileNameWithoutExtension(o.Input) + ".glb": o.Output);
+                var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
                 var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
 
                 if (File.Exists(glbfile) && !o.Force)
@@ -90,7 +93,8 @@ namespace b3dm.tooling
                     }
                 }
             }
-            catch (InvalidDataException ex) {
+            catch (InvalidDataException ex)
+            {
                 Console.WriteLine("glTF version not supported.");
                 Console.WriteLine(ex.Message);
             }
@@ -132,6 +136,24 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
                 Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
+
+                foreach (var primitive in glb.LogicalMeshes[0].Primitives)
+                {
+                    Console.Write($"Primitive {primitive.LogicalIndex} ");
+
+                    if (primitive.GetVertexAccessor("_BATCHID") != null)
+                    {
+                        var batchIds = primitive.GetVertexAccessor("_BATCHID").AsScalarArray();
+                        Console.WriteLine($"batch ids (unique): {string.Join(',',batchIds.Distinct())}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No BATCH_ID attribute found...");
+                    }
+
+                }
+
+
                 if (glb.ExtensionsUsed != null)
                 {
                     Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));
@@ -162,6 +184,11 @@ namespace b3dm.tooling
             catch (InvalidDataException ex)
             {
                 Console.WriteLine("Invalid data exception");
+                Console.WriteLine(ex.Message);
+            }
+            catch (LinkException ex)
+            {
+                Console.WriteLine("glTF Link exception");
                 Console.WriteLine(ex.Message);
             }
 
