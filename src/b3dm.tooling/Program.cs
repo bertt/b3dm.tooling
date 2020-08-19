@@ -156,7 +156,7 @@ namespace b3dm.tooling
 
                 if (glb.ExtensionsUsed != null)
                 {
-                    Console.WriteLine("glTF extensions used:" + string.Join(',', glb.ExtensionsUsed));
+                    Console.WriteLine("glTF extensions used: " + string.Join(',', glb.ExtensionsUsed));
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace b3dm.tooling
                 }
                 if (glb.ExtensionsRequired != null)
                 {
-                    Console.WriteLine("glTF extensions required:" + string.Join(',', glb.ExtensionsRequired));
+                    Console.WriteLine("glTF extensions required: " + string.Join(',', glb.ExtensionsRequired));
                 }
                 else
                 {

@@ -129,5 +129,10 @@ or update:
 $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 ```
 
+## History
+
+200819: added support for reading glTF with KHR_mesh_quantization. 
+A custom build of SharpGltf on myget is used for now: https://www.myget.org/feed/bertt/package/nuget/SharpGLTF.Toolkit/1.0.0-Preview-20200819-1221
+
 
 
