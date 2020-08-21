@@ -161,10 +161,6 @@ namespace b3dm.tooling
                 foreach (var primitive in glb.LogicalMeshes[0].Primitives)
                 {
                     Console.Write($"Primitive {primitive.LogicalIndex} ({primitive.DrawPrimitiveType}) ");
-                    foreach (var acc in primitive.VertexAccessors)
-                    {
-                        var dim = ((Accessor)acc.Value).Count;
-                    }
 
                     if (primitive.GetVertexAccessor("_BATCHID") != null)
                     {
