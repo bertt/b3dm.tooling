@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using B3dm.Tile;
 using CommandLine;
+using SharpGLTF.Schema2;
 using SharpGLTF.Validation;
 
 namespace b3dm.tooling
@@ -68,7 +69,7 @@ namespace b3dm.tooling
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
-                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+                var glb = ModelRoot.ReadGLB(stream);
                 Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version: " + glb.Asset.Version);
                 var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
@@ -117,7 +118,7 @@ namespace b3dm.tooling
             var validationErrors = b3dm.B3dmHeader.Validate();
             if (validationErrors.Count > 0)
             {
-                Console.WriteLine($"Validation check: {validationErrors.Count} errors");
+                Console.WriteLine($"Byte padding rule check: {validationErrors.Count} errors");
                 foreach (var error in validationErrors)
                 {
                     Console.WriteLine(error);
@@ -131,28 +132,42 @@ namespace b3dm.tooling
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
-                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+                var glb = ModelRoot.ReadGLB(stream);
                 Console.WriteLine("glTF model is loaded");
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
                 Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
+                var triangles = Schema2Toolkit.EvaluateTriangles(glb.DefaultScene);
+                Console.WriteLine("glTF triangles: " +triangles.ToArray().Length);
 
+                var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
+                var xmin = (from p in points select p.X).Min();
+                var xmax = (from p in points select p.X).Max();
+                var ymin = (from p in points select p.Y).Min();
+                var ymax = (from p in points select p.Y).Max();
+                var zmin = (from p in points select p.Z).Min();
+                var zmax = (from p in points select p.Z).Max();
+
+                Console.WriteLine($"Bounding box vertices: {xmin}, {xmax}, {ymin}, {ymax}, {zmin}, {zmax}");
                 foreach (var primitive in glb.LogicalMeshes[0].Primitives)
                 {
                     Console.Write($"Primitive {primitive.LogicalIndex} ");
+                    foreach (var acc in primitive.VertexAccessors)
+                    {
+                        var dim = ((Accessor)acc.Value).Count;
+                    }
 
                     if (primitive.GetVertexAccessor("_BATCHID") != null)
                     {
                         var batchIds = primitive.GetVertexAccessor("_BATCHID").AsScalarArray();
                         Console.WriteLine($"batch ids (unique): {string.Join(',',batchIds.Distinct())}");
+
                     }
                     else
                     {
                         Console.WriteLine($"No BATCH_ID attribute found...");
                     }
-
                 }
-
 
                 if (glb.ExtensionsUsed != null)
                 {

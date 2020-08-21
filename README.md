@@ -67,7 +67,7 @@ $ dotnet tool update -g b3dm.tooling
 
 ## Running
 
-1] Command Info b3dm_file gives header info about b3dm file
+1] Command Info b3dm_file gives header info about b3dm file and glTF in the payload
 
 Example:
 
@@ -82,6 +82,14 @@ b3dm header batchtablejson length: 521
 Batch table json: {"hoehe":["17.386000000000024","18.34499999999997","18.58699999999999","21.860000000000014","10.168000000000006","20.584000000000003","19.70599999999996","19.817000000000007","20.000999999999976","16.577999999999975","17.865999999999985","17.745000000000005"],"citygml_class":["BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01"],"surfaceType":["roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof"],"Region":["5","5","5","5","5","5","5","5","5","5","5","5"]}
 Feature table json: {"BATCH_LENGTH":12}
 glTF model is loaded
+Batch table json: ''
+Validation check: no errors
+glTF model is loaded
+glTF generator: Khronos glTF Blender I/O v1.2.75
+glTF version:2.0
+glTF primitives: 1
+glTF triangles: 722
+Bounding box vertices: -0.2226839, 0.2226839, 0, 0.56007576, -0.26161957, 0.26161957
 ```
 
 2] Command unpack -i b3dm_filename 

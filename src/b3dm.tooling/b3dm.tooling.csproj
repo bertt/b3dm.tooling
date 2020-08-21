@@ -7,7 +7,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>b3dm</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <Version>0.16</Version>
+    <Version>0.17</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Bert Temme</Authors>
     <Company>Geodan</Company>
@@ -17,8 +17,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Tooling for pack/unpack/info on b3dm file</Description>
     <PackageReleaseNotes>add padding validation</PackageReleaseNotes>
-    <AssemblyVersion>0.16.0.0</AssemblyVersion>
-    <FileVersion>0.16.0.0</FileVersion>
+    <AssemblyVersion>0.17.0.0</AssemblyVersion>
+    <FileVersion>0.17.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,6 +44,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="draco.b3dm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="seat.b3dm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="seat_red_origin.b3dm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="test.b3dm">
