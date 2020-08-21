@@ -1,6 +1,6 @@
 # b3dm.tooling
 
-Global tooling for handling b3dm files. 
+Global tooling for handling 3D Tiles b3dm files. 
 
 Supports operations like:
 
