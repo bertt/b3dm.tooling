@@ -1,6 +1,14 @@
 # b3dm.tooling
 
-Global tooling for handling b3dm files, like getting information about the b3dm (info), unpacking to glb (unpack) or creating b3dm from glb file (pack).
+Global tooling for handling b3dm files. 
+
+Supports operations like:
+
+- getting information about the b3dm (info);
+
+- unpacking from b3dm to glb (unpack);
+
+- creating b3dm from glb file (pack).
 
 ## API
 
@@ -34,6 +42,8 @@ Pack options:
   -f, --force     (Default: false) force overwrite output file
 ```
 
+Batch information is retrieved from files .batchtable.json and .featuretable.json when present.
+
 
 Unpack options:
 
@@ -45,6 +55,7 @@ Unpack options:
   -f, --force     (Default: false) force overwrite output file
 ```
 
+Batch information is saved in files .batchtable.json and .featuretable.json when present.
 
 ## Installation
 
@@ -82,7 +93,6 @@ b3dm header batchtablejson length: 521
 Batch table json: {"hoehe":["17.386000000000024","18.34499999999997","18.58699999999999","21.860000000000014","10.168000000000006","20.584000000000003","19.70599999999996","19.817000000000007","20.000999999999976","16.577999999999975","17.865999999999985","17.745000000000005"],"citygml_class":["BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01","BB01"],"surfaceType":["roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof","roof"],"Region":["5","5","5","5","5","5","5","5","5","5","5","5"]}
 Feature table json: {"BATCH_LENGTH":12}
 glTF model is loaded
-Batch table json: ''
 Validation check: no errors
 glTF model is loaded
 glTF generator: Khronos glTF Blender I/O v1.2.75
@@ -94,12 +104,13 @@ Bounding box vertices: -0.2226839, 0.2226839, 0, 0.56007576, -0.26161957, 0.2616
 
 2] Command unpack -i b3dm_filename 
 
-unpacks a b3dm file to GLB format and creates .batch file when containing batchTableJson information
+unpacks a b3dm file to GLB format and creates {name}.batchtable.json and {name}.featuretable.json files when containing 
+batchTableJson information
 
 Example:
 
 ```
-$ b3dm unpack -i test.b3dm
+$ b3dm unpack -i 1.b3dm
 Action: Unpack
 Input: 1.b3dm
 b3dm version: 1
@@ -107,7 +118,20 @@ glTF asset generator: py3dtiles
 glTF version: 2.0
 Buffer bytes: 167832
 Glb created: 1.glb
-batch file created: 1.batch
+BatchTable json file created: 1.batchtable.json
+FeatureTable json file created: 1.featuretable.json
+```
+
+Sample file 1.batchtable.json:
+
+```
+{"id":["10103","800","2117","2497","11214","7076","4140","9584","784","9294","9295","7075","7078","20240","2116","7077","13523","6131","11300","13466","12805","7074","4411","7079","6443","2786","7073","7072","1200","11281","2115"]}
+```
+
+Sample file 1.featuretable.json:
+
+```
+{"BATCH_LENGTH":31}
 ```
 
 3] Command pack -i glb_filename to pack a glb to b3dm file and importing batchTableJson when .batch file exists.
@@ -138,6 +162,8 @@ $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 ```
 
 ## History
+
+200821: adding reading/writing batch information to/from .batchtable.json and .featuretable.json
 
 200819: added support for reading glTF with KHR_mesh_quantization. 
 A custom build of SharpGltf on myget is used for now: https://www.myget.org/feed/bertt/package/nuget/SharpGLTF.Toolkit/1.0.0-Preview-20200819-1221

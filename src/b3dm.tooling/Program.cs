@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using B3dm.Tile;
 using CommandLine;
 using SharpGLTF.Schema2;
@@ -35,15 +34,22 @@ namespace b3dm.tooling
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {o.Input}");
             var f = File.ReadAllBytes(o.Input);
-            var batchFile = Path.GetFileNameWithoutExtension(o.Input) + ".batch";
+            var batchTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json";
+            var featureTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json";
             var b3dm = new B3dm.Tile.B3dm(f);
 
-            if (File.Exists(batchFile))
+            if (File.Exists(batchTableJsonFile))
             {
-                Console.WriteLine($"Input batch file: {batchFile}");
-                var batchTableJson = File.ReadAllLines(batchFile);
+                Console.WriteLine($"Input batchtable json file: {batchTableJsonFile}");
+                var batchTableJson = File.ReadAllLines(batchTableJsonFile);
                 b3dm.FeatureTableJson = batchTableJson[0];
-                b3dm.BatchTableJson = batchTableJson[1];
+            }
+
+            if (File.Exists(featureTableJsonFile))
+            {
+                Console.WriteLine($"Input featuretable json file: {featureTableJsonFile}");
+                var featureTableJson = File.ReadAllLines(featureTableJsonFile);
+                b3dm.FeatureTableJson = featureTableJson[0];
             }
 
             var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
@@ -73,7 +79,8 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version: " + glb.Asset.Version);
                 var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-                var batchfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batch" : o.Output);
+                var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
+                var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
 
                 if (File.Exists(glbfile) && !o.Force)
                 {
@@ -85,13 +92,15 @@ namespace b3dm.tooling
                     Console.WriteLine($"Glb created: {glbfile}");
                     if (b3dm.BatchTableJson != String.Empty)
                     {
-                        var sb = new StringBuilder();
-                        sb.Append(b3dm.FeatureTableJson);
-                        sb.AppendLine();
-                        sb.Append(b3dm.BatchTableJson);
-                        File.WriteAllText(batchfile, sb.ToString());
-                        Console.WriteLine($"batch file created: {batchfile}");
+                        File.WriteAllText(batchTableJsonFile, b3dm.BatchTableJson);
+                        Console.WriteLine($"BatchTable json file created: {batchTableJsonFile}");
                     }
+                    if (b3dm.FeatureTableJson != String.Empty)
+                    {
+                        File.WriteAllText(featureTableJsonFile, b3dm.FeatureTableJson);
+                        Console.WriteLine($"FeatureTable json file created: {featureTableJsonFile}");
+                    }
+
                 }
             }
             catch (InvalidDataException ex)
