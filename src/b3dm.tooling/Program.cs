@@ -146,8 +146,8 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
                 Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
-                var triangles = Schema2Toolkit.EvaluateTriangles(glb.DefaultScene);
-                Console.WriteLine("glTF triangles: " +triangles.ToArray().Length);
+                var triangles = Schema2Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
+                Console.WriteLine("glTF triangles: " +triangles.Count);
 
                 var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
                 var xmin = (from p in points select p.X).Min();
@@ -160,7 +160,7 @@ namespace b3dm.tooling
                 Console.WriteLine($"Bounding box vertices: {xmin}, {xmax}, {ymin}, {ymax}, {zmin}, {zmax}");
                 foreach (var primitive in glb.LogicalMeshes[0].Primitives)
                 {
-                    Console.Write($"Primitive {primitive.LogicalIndex} ");
+                    Console.Write($"Primitive {primitive.LogicalIndex} ({primitive.DrawPrimitiveType}) ");
                     foreach (var acc in primitive.VertexAccessors)
                     {
                         var dim = ((Accessor)acc.Value).Count;
@@ -178,7 +178,7 @@ namespace b3dm.tooling
                     }
                 }
 
-                if (glb.ExtensionsUsed != null)
+                if (glb.ExtensionsUsed.Count() > 0)
                 {
                     Console.WriteLine("glTF extensions used: " + string.Join(',', glb.ExtensionsUsed));
                 }
@@ -186,7 +186,7 @@ namespace b3dm.tooling
                 {
                     Console.WriteLine("glTF: no extensions used.");
                 }
-                if (glb.ExtensionsRequired != null)
+                if (glb.ExtensionsRequired.Count() > 0)
                 {
                     Console.WriteLine("glTF extensions required: " + string.Join(',', glb.ExtensionsRequired));
                 }
@@ -195,10 +195,6 @@ namespace b3dm.tooling
                     Console.WriteLine("glTF: no extensions required.");
                 }
 
-                if (glb.LogicalMeshes[0].Primitives.Count > 0)
-                {
-                    Console.WriteLine("glTF primitive mode: " + glb.LogicalMeshes[0].Primitives[0].DrawPrimitiveType);
-                }
             }
             catch (SchemaException ex)
             {
