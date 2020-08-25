@@ -170,7 +170,7 @@ namespace b3dm.tooling
                     }
                     else
                     {
-                        Console.WriteLine($"No BATCH_ID attribute found...");
+                        Console.WriteLine($"No _BATCHID attribute found...");
                     }
                 }
 
