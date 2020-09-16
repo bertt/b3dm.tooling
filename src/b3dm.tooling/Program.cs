@@ -146,7 +146,7 @@ namespace b3dm.tooling
                 var zmin = (from p in points select p.Z).Min();
                 var zmax = (from p in points select p.Z).Max();
 
-                Console.WriteLine($"Bounding box vertices: {xmin}, {xmax}, {ymin}, {ymax}, {zmin}, {zmax}");
+                Console.WriteLine($"Bounding box vertices (xmin, ymin, zmin, xmax, ymax, zmax): {xmin}, {ymin}, {zmin}, {xmax}, {ymax}, {zmax}");
                 foreach (var primitive in glb.LogicalMeshes[0].Primitives)
                 {
                     Console.Write($"Primitive {primitive.LogicalIndex} ({primitive.DrawPrimitiveType}) ");
