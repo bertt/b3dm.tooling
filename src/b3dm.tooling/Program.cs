@@ -135,10 +135,10 @@ namespace b3dm.tooling
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
                 Console.WriteLine("glTF primitives: " + glb.LogicalMeshes[0].Primitives.Count);
-                var triangles = Schema2Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
+                var triangles = Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
                 Console.WriteLine("glTF triangles: " +triangles.Count);
 
-                var points = triangles.SelectMany(item => new[] { item.Item1.GetGeometry().GetPosition(), item.Item2.GetGeometry().GetPosition(), item.Item3.GetGeometry().GetPosition() }.Distinct().ToList());
+                var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
                 var xmin = (from p in points select p.X).Min();
                 var xmax = (from p in points select p.X).Max();
                 var ymin = (from p in points select p.Y).Min();
