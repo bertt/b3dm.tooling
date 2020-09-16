@@ -72,42 +72,30 @@ namespace b3dm.tooling
             var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
-            var stream = new MemoryStream(b3dm.GlbData);
-            try
+
+            var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
+            var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
+            var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
+
+            if (File.Exists(glbfile) && !o.Force)
             {
-                var rs = new ReadSettings();
-                var glb = ModelRoot.ReadGLB(stream, rs);
-                Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
-                Console.WriteLine("glTF version: " + glb.Asset.Version);
-                var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-                var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
-                var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
-
-                if (File.Exists(glbfile) && !o.Force)
-                {
-                    Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
-                }
-                else
-                {
-                    File.WriteAllBytes(glbfile, b3dm.GlbData);
-                    Console.WriteLine($"Glb created: {glbfile}");
-                    if (b3dm.BatchTableJson != String.Empty)
-                    {
-                        File.WriteAllText(batchTableJsonFile, b3dm.BatchTableJson);
-                        Console.WriteLine($"BatchTable json file created: {batchTableJsonFile}");
-                    }
-                    if (b3dm.FeatureTableJson != String.Empty)
-                    {
-                        File.WriteAllText(featureTableJsonFile, b3dm.FeatureTableJson);
-                        Console.WriteLine($"FeatureTable json file created: {featureTableJsonFile}");
-                    }
-
-                }
+                Console.WriteLine($"File {glbfile} already exists. Specify -f or --force to overwrite existing files.");
             }
-            catch (InvalidDataException ex)
+            else
             {
-                Console.WriteLine("glTF version not supported.");
-                Console.WriteLine(ex.Message);
+                File.WriteAllBytes(glbfile, b3dm.GlbData);
+                Console.WriteLine($"Glb created: {glbfile}");
+                if (b3dm.BatchTableJson != String.Empty)
+                {
+                    File.WriteAllText(batchTableJsonFile, b3dm.BatchTableJson);
+                    Console.WriteLine($"BatchTable json file created: {batchTableJsonFile}");
+                }
+                if (b3dm.FeatureTableJson != String.Empty)
+                {
+                    File.WriteAllText(featureTableJsonFile, b3dm.FeatureTableJson);
+                    Console.WriteLine($"FeatureTable json file created: {featureTableJsonFile}");
+                }
+
             }
         }
 
@@ -206,6 +194,10 @@ namespace b3dm.tooling
             catch (LinkException ex)
             {
                 Console.WriteLine("glTF Link exception");
+                Console.WriteLine(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
                 Console.WriteLine(ex.Message);
             }
 

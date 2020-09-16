@@ -163,6 +163,8 @@ $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 
 ## History
 
+200916: simplify unpack - release 0.20
+
 200821: adding reading/writing batch information to/from .batchtable.json and .featuretable.json
 
 200819: added support for reading glTF with KHR_mesh_quantization. 
