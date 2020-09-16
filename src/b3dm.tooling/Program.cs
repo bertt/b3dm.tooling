@@ -75,7 +75,8 @@ namespace b3dm.tooling
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
-                var glb = ModelRoot.ReadGLB(stream);
+                var rs = new ReadSettings();
+                var glb = ModelRoot.ReadGLB(stream, rs);
                 Console.WriteLine("glTF asset generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version: " + glb.Asset.Version);
                 var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
@@ -141,7 +142,7 @@ namespace b3dm.tooling
             var stream = new MemoryStream(b3dm.GlbData);
             try
             {
-                var glb = ModelRoot.ReadGLB(stream);
+                var glb = ModelRoot.ReadGLB(stream, new ReadSettings());
                 Console.WriteLine("glTF model is loaded");
                 Console.WriteLine("glTF generator: " + glb.Asset.Generator);
                 Console.WriteLine("glTF version:" + glb.Asset.Version);
@@ -149,7 +150,7 @@ namespace b3dm.tooling
                 var triangles = Schema2Toolkit.EvaluateTriangles(glb.DefaultScene).ToList();
                 Console.WriteLine("glTF triangles: " +triangles.Count);
 
-                var points = triangles.SelectMany(item => new[] { item.A.GetGeometry().GetPosition(), item.B.GetGeometry().GetPosition(), item.C.GetGeometry().GetPosition() }.Distinct().ToList());
+                var points = triangles.SelectMany(item => new[] { item.Item1.GetGeometry().GetPosition(), item.Item2.GetGeometry().GetPosition(), item.Item3.GetGeometry().GetPosition() }.Distinct().ToList());
                 var xmin = (from p in points select p.X).Min();
                 var xmax = (from p in points select p.X).Max();
                 var ymin = (from p in points select p.Y).Min();
