@@ -59,7 +59,7 @@ Batch information is saved in files .batchtable.json and .featuretable.json when
 
 ## Installation
 
-Requirement: Install .NET Core SDK 3.1 https://dotnet.microsoft.com/download
+Requirement: Install .NET SDK 6.0 https://dotnet.microsoft.com/download
 
 - Install from NuGet
 
