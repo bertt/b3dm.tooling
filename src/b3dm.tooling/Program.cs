@@ -60,7 +60,8 @@ namespace b3dm.tooling
             }
             else
             {
-                B3dmWriter.WriteB3dm(b3dmfile, b3dm);
+                var bytes = b3dm.ToBytes();
+                File.WriteAllBytes(b3dmfile, bytes );
                 Console.WriteLine("B3dm created " + b3dmfile);
             }
         }
