@@ -43,7 +43,7 @@ namespace b3dm.tooling
             {
                 Console.WriteLine($"Input batchtable json file: {batchTableJsonFile}");
                 var batchTableJson = File.ReadAllLines(batchTableJsonFile);
-                b3dm.FeatureTableJson = batchTableJson[0];
+                b3dm.BatchTableJson = batchTableJson[0];
             }
 
             if (File.Exists(featureTableJsonFile))
