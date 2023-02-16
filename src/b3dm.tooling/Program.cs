@@ -33,10 +33,9 @@ namespace b3dm.tooling
         {
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {o.Input}");
-            var directoryName = Path.GetDirectoryName(o.Input);
             var f = File.ReadAllBytes(o.Input);
-            var batchTableJsonFile = directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json";
-            var featureTableJsonFile = directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json";
+            var batchTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json";
+            var featureTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json";
             var b3dm = new B3dm(f);
 
             if (File.Exists(batchTableJsonFile))
@@ -53,7 +52,7 @@ namespace b3dm.tooling
                 b3dm.FeatureTableJson = featureTableJson[0];
             }
 
-            var b3dmfile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
+            var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
 
             if (File.Exists(b3dmfile) && !o.Force)
             {
@@ -71,15 +70,14 @@ namespace b3dm.tooling
         {
             Console.WriteLine($"Action: Unpack");
             Console.WriteLine($"Input: {o.Input}");
-            var directoryName = Path.GetDirectoryName(o.Input);
 
             var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
 
-            var glbfile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-            var batchTableJsonFile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
-            var featureTableJsonFile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
+            var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
+            var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
+            var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
 
             if (File.Exists(glbfile) && !o.Force)
             {
@@ -99,7 +97,6 @@ namespace b3dm.tooling
                     File.WriteAllText(featureTableJsonFile, b3dm.FeatureTableJson);
                     Console.WriteLine($"FeatureTable json file created: {featureTableJsonFile}");
                 }
-
             }
         }
 
