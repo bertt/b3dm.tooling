@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using B3dm.Tile;
+using B3dmCore;
 using CommandLine;
 using SharpGLTF.Schema2;
 using SharpGLTF.Validation;
@@ -33,10 +33,11 @@ namespace b3dm.tooling
         {
             Console.WriteLine($"Action: Pack");
             Console.WriteLine($"Input: {o.Input}");
+            var directoryName = Path.GetDirectoryName(o.Input);
             var f = File.ReadAllBytes(o.Input);
-            var batchTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json";
-            var featureTableJsonFile = Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json";
-            var b3dm = new B3dm.Tile.B3dm(f);
+            var batchTableJsonFile = directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json";
+            var featureTableJsonFile = directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json";
+            var b3dm = new B3dm(f);
 
             if (File.Exists(batchTableJsonFile))
             {
@@ -70,13 +71,15 @@ namespace b3dm.tooling
         {
             Console.WriteLine($"Action: Unpack");
             Console.WriteLine($"Input: {o.Input}");
+            var directoryName = Path.GetDirectoryName(o.Input);
+
             var f = File.OpenRead(o.Input);
             var b3dm = B3dmReader.ReadB3dm(f);
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
 
-            var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-            var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
-            var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
+            var glbfile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
+            var batchTableJsonFile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
+            var featureTableJsonFile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
 
             if (File.Exists(glbfile) && !o.Force)
             {

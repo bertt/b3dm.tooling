@@ -163,6 +163,8 @@ $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 
 ## History
 
+2023-02-16: release 1.0.1 - bug fix for option pack with remote file
+
 2022-12-08: release 1.0 - upgrading to .NET 6
 
 2020-09-16: simplify unpack - release 0.20
