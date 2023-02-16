@@ -53,7 +53,7 @@ namespace b3dm.tooling
                 b3dm.FeatureTableJson = featureTableJson[0];
             }
 
-            var b3dmfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
+            var b3dmfile = (o.Output == string.Empty ? directoryName + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(o.Input) + ".b3dm" : o.Output);
 
             if (File.Exists(b3dmfile) && !o.Force)
             {
