@@ -163,6 +163,8 @@ $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 
 ## History
 
+2024-01-25: release 1.0.5 - bug fix reading glb from b3dm with trailing padding
+
 2023-02-16: release 1.0.3, 1.0.4 - bug fix reading fglb from b3dm with trailing padding
 
 2023-02-16: release 1.0.1, 1.0.2 - bug fix for option pack with remote file

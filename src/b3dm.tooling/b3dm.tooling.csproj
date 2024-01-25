@@ -7,7 +7,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>b3dm</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Bert Temme</Authors>
     <Company>Geodan</Company>
@@ -17,12 +17,12 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Tooling for pack/unpack/info on b3dm file</Description>
     <PackageReleaseNotes>add padding validation</PackageReleaseNotes>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
-    <FileVersion>1.0.4</FileVersion>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
+    <FileVersion>1.0.5</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="b3dm-tile" Version="1.1.1" />
+    <PackageReference Include="b3dm-tile" Version="1.1.2" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0030" />
   </ItemGroup>
