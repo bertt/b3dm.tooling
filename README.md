@@ -139,12 +139,12 @@ Sample file 1.featuretable.json:
 Example:
 
 ```
-$ b3dm pack -i test.glb
+$ b3dm pack -i 1.glb
 
 Action: Pack
 Input: 1.b3dm
 Input batch file: 1.batch
-B3dm created output.b3dm
+B3dm created 1.b3dm
 ```
 
 ## Building from source
