@@ -143,7 +143,7 @@ $ b3dm pack -i 1.glb
 
 Action: Pack
 Input: 1.b3dm
-Input batch file: 1.batch
+Input batch file: 1.batchtable.json
 B3dm created 1.b3dm
 ```
 
