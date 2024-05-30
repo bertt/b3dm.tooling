@@ -76,8 +76,8 @@ namespace b3dm.tooling
             Console.WriteLine("b3dm version: " + b3dm.B3dmHeader.Version);
 
             var glbfile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".glb" : o.Output);
-            var batchTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".batchtable.json" : o.Output);
-            var featureTableJsonFile = (o.Output == string.Empty ? Path.GetFileNameWithoutExtension(o.Input) + ".featuretable.json" : o.Output);
+            var batchTableJsonFile = Path.GetFileNameWithoutExtension(glbfile) + ".batchtable.json";
+            var featureTableJsonFile = Path.GetFileNameWithoutExtension(glbfile) + ".featuretable.json";
 
             if (File.Exists(glbfile) && !o.Force)
             {
