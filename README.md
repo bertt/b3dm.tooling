@@ -59,7 +59,7 @@ Batch information is saved in files .batchtable.json and .featuretable.json when
 
 ## Installation
 
-Requirement: Install .NET SDK 6.0 https://dotnet.microsoft.com/download
+Requirement: Install .NET SDK 8.0 https://dotnet.microsoft.com/download
 
 - Install from NuGet
 
@@ -162,6 +162,8 @@ $ dotnet tool update --global --add-source ./nupkg b3dm.tooling
 ```
 
 ## History
+
+2024-10-29: release 1.1 - from .NET 6.0 to .NET 8.0
 
 2024-01-25: release 1.0.5 - bug fix reading glb from b3dm with trailing padding
 
